@@ -49,11 +49,12 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private readonly configService: ConfigService) {}
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['apokmdkn'], // This keys useful for encryption the cookie values
+          keys: [this.configService.get('COOKIE_KEY')], // This keys useful for encryption the cookie values
         }),
       )
       .forRoutes('*');
